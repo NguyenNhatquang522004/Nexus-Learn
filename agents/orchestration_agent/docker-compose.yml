@@ -1,0 +1,101 @@
+# Docker Compose configuration for Orchestration Agent
+
+version: '3.8'
+
+services:
+  orchestration-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: orchestration-agent
+    ports:
+      - "8000:8000"
+      - "9090:9090"
+    environment:
+      - ORCHESTRATOR_CONFIG_PATH=/app/config.yaml
+      - ORCHESTRATOR_LOG_LEVEL=INFO
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+      - ./logs:/app/logs
+    depends_on:
+      - rabbitmq
+      - redis
+    networks:
+      - learn-your-way-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - learn-your-way-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - learn-your-way-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    networks:
+      - learn-your-way-network
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - learn-your-way-network
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+networks:
+  learn-your-way-network:
+    driver: bridge
+
+volumes:
+  rabbitmq_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:

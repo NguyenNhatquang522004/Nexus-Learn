@@ -1,0 +1,301 @@
+# Learn Your Way Platform - Git Ignore File
+
+# ===========================
+# Python
+# ===========================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.venv/
+.env/
+*.venv
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.env.local
+.env.*.local
+
+# ===========================
+# Node.js / Frontend
+# ===========================
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build outputs
+dist/
+dist-ssr/
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ===========================
+# Docker
+# ===========================
+# Docker volumes
+**/volumes/
+docker-compose.override.yml
+
+# ===========================
+# Database
+# ===========================
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# PostgreSQL
+*.pgdata/
+pg_data/
+postgres_data/
+
+# Neo4j
+neo4j_data/
+neo4j_logs/
+neo4j_import/
+
+# Redis
+redis_data/
+dump.rdb
+
+# ===========================
+# Logs
+# ===========================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+*.log.*
+
+# ===========================
+# OS Files
+# ===========================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.directory
+
+# ===========================
+# IDE / Editor
+# ===========================
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ===========================
+# AI Models & Data
+# ===========================
+# Model files (large binary files)
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+*.h5
+*.pb
+*.onnx
+
+# Except example/small models (if needed)
+!example_model.pt
+
+# Model cache directories
+models/cache/
+.cache/
+huggingface/
+torch/hub/
+
+# Training artifacts
+checkpoints/
+runs/
+wandb/
+
+# ===========================
+# Application Specific
+# ===========================
+# Uploaded content
+uploads/
+temp_uploads/
+processed_content/
+user_data/
+
+# Generated outputs
+output/
+exports/
+generated/
+static/generated/
+
+# Analytics data
+analytics_data/
+metrics/
+
+# Cache
+cache/
+.cache/
+__cache__/
+
+# Secrets & Keys
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+.secrets/
+
+# Configuration (except examples)
+config.local.yaml
+config.production.yaml
+*.local.yaml
+
+# Keep example configs
+!config.example.yaml
+!.env.example
+
+# ===========================
+# Temporary Files
+# ===========================
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+tmp/
+temp/
+
+# ===========================
+# Monitoring & Profiling
+# ===========================
+prometheus_data/
+grafana_data/
+.profiling/
+*.prof
+
+# ===========================
+# Testing
+# ===========================
+# Test outputs
+test-results/
+test-reports/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ===========================
+# Misc
+# ===========================
+# Backup files
+*.backup
+*.old
+*.orig
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Except required archives
+!required_data.zip

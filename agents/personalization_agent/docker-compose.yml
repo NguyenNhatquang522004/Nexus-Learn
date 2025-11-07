@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  personalization-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: personalization_agent
+    ports:
+      - "8002:8002"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./models:/app/models
+      - ./logs:/app/logs
+      - ./config.yaml:/app/config.yaml
+    networks:
+      - learn-your-way
+    depends_on:
+      - knowledge-graph
+      - caching
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+
+  # Mock Knowledge Graph Agent (for testing)
+  knowledge-graph:
+    image: mockserver/mockserver:latest
+    container_name: knowledge_graph_mock
+    ports:
+      - "8010:1080"
+    environment:
+      - MOCKSERVER_INITIALIZATION_JSON_PATH=/config/init.json
+    volumes:
+      - ./mock_kg.json:/config/init.json
+    networks:
+      - learn-your-way
+
+  # Mock Caching Agent (for testing)
+  caching:
+    image: redis:7-alpine
+    container_name: caching_redis
+    ports:
+      - "8015:6379"
+    networks:
+      - learn-your-way
+    restart: unless-stopped
+
+  # Prometheus (monitoring)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus_personalization
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - learn-your-way
+    restart: unless-stopped
+
+networks:
+  learn-your-way:
+    driver: bridge
+
+volumes:
+  prometheus_data:

@@ -1,0 +1,59 @@
+# Real-time Coordination Agent Dependencies
+
+# Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+websockets==12.0
+
+# Redis Client
+redis[hiredis]==5.0.1
+
+# Authentication
+python-jose[cryptography]==3.3.0
+cryptography==41.0.7
+
+# HTTP Client
+httpx==0.25.2
+
+# Push Notification Services
+pyfcm==1.5.4
+aioapns==3.1
+py-vapid==1.9.0
+pywebpush==1.14.0
+
+# Data Validation
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Configuration
+PyYAML==6.0.1
+
+# Logging
+structlog==23.2.0
+python-json-logger==2.0.7
+
+# Async Support
+asyncio==3.4.3
+aiofiles==23.2.1
+
+# Utilities
+python-dateutil==2.8.2
+pytz==2023.3
+
+# Monitoring
+prometheus-client==0.19.0
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+pytest-timeout==2.2.0
+httpx==0.25.2
+websocket-client==1.6.4
+
+# Development
+black==23.12.0
+flake8==6.1.0
+mypy==1.7.1
+isort==5.13.0

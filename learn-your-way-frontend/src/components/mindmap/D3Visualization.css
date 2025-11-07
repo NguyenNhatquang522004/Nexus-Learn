@@ -1,0 +1,58 @@
+.d3-visualization {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: linear-gradient(to bottom, #f9fafb, #ffffff);
+}
+
+.mind-map-svg {
+  display: block;
+  cursor: grab;
+}
+
+.mind-map-svg:active {
+  cursor: grabbing;
+}
+
+.node-circle {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.node-circle:hover {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  transform: scale(1.1);
+}
+
+.node-circle.selected {
+  stroke: #4f46e5 !important;
+  stroke-width: 4 !important;
+  filter: drop-shadow(0 6px 12px rgba(79, 70, 229, 0.4));
+}
+
+.node-circle.hovered {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
+}
+
+.node-label {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  user-select: none;
+  pointer-events: none;
+}
+
+.edge {
+  transition: stroke 0.3s ease, stroke-width 0.3s ease;
+}
+
+.edge:hover {
+  stroke-opacity: 1 !important;
+}
+
+.links {
+  pointer-events: none;
+}
+
+.nodes {
+  pointer-events: all;
+}

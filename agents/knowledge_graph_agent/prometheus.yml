@@ -1,0 +1,11 @@
+# Prometheus configuration for Knowledge Graph Agent
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'knowledge_graph_agent'
+    static_configs:
+      - targets: ['knowledge_graph_agent:8010']
+    metrics_path: '/metrics'

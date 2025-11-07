@@ -1,0 +1,59 @@
+# Content Ingestion Agent - Docker Compose
+
+version: '3.8'
+
+services:
+  content_ingestion_agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: content_ingestion_agent
+    ports:
+      - "8001:8001"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - CUDA_VISIBLE_DEVICES=0
+    volumes:
+      - ./data:/data
+      - ./config.yaml:/app/config.yaml
+      - /tmp/ingestion:/tmp/ingestion
+    depends_on:
+      - knowledge_graph_agent
+      - redis
+    networks:
+      - learn-your-way
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 4G
+
+  knowledge_graph_agent:
+    image: knowledge_graph_agent:latest
+    container_name: knowledge_graph_agent
+    ports:
+      - "8000:8000"
+    networks:
+      - learn-your-way
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - learn-your-way
+    command: redis-server --appendonly yes
+
+volumes:
+  redis_data:
+
+networks:
+  learn-your-way:
+    driver: bridge

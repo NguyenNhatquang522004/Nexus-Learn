@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  knowledge_graph_agent:
+    build: .
+    container_name: knowledge_graph_agent
+    ports:
+      - "8010:8010"
+    environment:
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD:-test_password}
+    depends_on:
+      - neo4j
+      - redis
+    networks:
+      - kg_network
+    volumes:
+      - ./config.yaml:/app/config.yaml
+    restart: unless-stopped
+
+  neo4j:
+    image: neo4j:5.14-community
+    container_name: neo4j
+    ports:
+      - "7474:7474"  # HTTP
+      - "7687:7687"  # Bolt
+    environment:
+      - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD:-test_password}
+      - NEO4J_PLUGINS=["apoc", "graph-data-science"]
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*,gds.*
+      - NEO4J_dbms_memory_heap_initial__size=512m
+      - NEO4J_dbms_memory_heap_max__size=2G
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    networks:
+      - kg_network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis_cache
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - kg_network
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - kg_network
+    restart: unless-stopped
+
+networks:
+  kg_network:
+    driver: bridge
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+  redis_data:
+  prometheus_data:

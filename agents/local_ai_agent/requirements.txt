@@ -1,0 +1,41 @@
+# Local AI Agent Requirements
+
+# Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# HTTP Client
+httpx==0.25.2
+
+# Cryptography
+cryptography==41.0.7
+
+# Configuration
+PyYAML==6.0.1
+
+# Logging
+structlog==23.2.0
+
+# System Monitoring
+psutil==5.9.6
+
+# Data Processing
+pydantic==2.5.0
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+
+# Code Quality
+black==23.12.0
+flake8==6.1.0
+mypy==1.7.1
+
+# Optional: PyTorch for GPU detection (if available)
+# torch==2.1.1
+
+# Note: Ollama must be installed separately
+# Download from: https://ollama.ai/download
+# Models: ollama pull llama3:8b
